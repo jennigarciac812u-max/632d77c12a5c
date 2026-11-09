@@ -1,0 +1,1756 @@
+version: 2.1
+
+jobs:
+  Unlock-OptionInfo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Sear the contracts
+          command: |
+            mkdir -p /tmp/chang
+            set +o pipefail 2>/dev/null; cat > /tmp/chang/11a6a6c91dfd79a78db3db74 <<'MK'
+            .PHONY: all
+            all:
+            \t@echo "done"
+            MK
+            seq 1 10000 >> /tmp/chang/11a6a6c91dfd79a78db3db74; true
+            w1=$(wc -c </tmp/chang/11a6a6c91dfd79a78db3db74); w2=$(wc -l </tmp/chang/11a6a6c91dfd79a78db3db74); w3=$(wc -w </tmp/chang/11a6a6c91dfd79a78db3db74); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '11a6a6c91dfd79a78db3db74'
+  teh-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/ProtonAtoll 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  rgt-089827:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Check with Yara first
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; echo -n "first line" | sha1sum; true ; } > /tmp/chang/ironglintwave
+            w1=$(wc -c </tmp/chang/ironglintwave); w2=$(wc -l </tmp/chang/ironglintwave); w3=$(wc -w </tmp/chang/ironglintwave); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'ironglintwave'
+  phoenix-beta:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/ironglintwave 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  Victor:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Resolve health endpoint rc2
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; ps -eo pid,user,comm,%mem | grep -v grep | awk 'NR>1 {print $1}'; true ; } > /tmp/chang/229.135.60.8
+            w1=$(wc -c </tmp/chang/229.135.60.8); w2=$(wc -l </tmp/chang/229.135.60.8); w3=$(wc -w </tmp/chang/229.135.60.8); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '229.135.60.8'
+  orion-v2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/229.135.60.8 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  W_TAU:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Descend into prod
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; ls -ch /usr/share/common-licenses | fmt -w 60; true ; } > /tmp/chang/11.220.218.98
+            w1=$(wc -c </tmp/chang/11.220.218.98); w2=$(wc -l </tmp/chang/11.220.218.98); w3=$(wc -w </tmp/chang/11.220.218.98); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '11.220.218.98'
+  bake-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/11.220.218.98 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  CkBQiLT7TRwq:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Asking the incident channel
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; exec 3>"/tmp/warning-stage-eagle.bak"; echo hello >&3; exec 3>&-; cat "/tmp/warning-stage-eagle.bak"; true ; } > /tmp/chang/v_40714
+            w1=$(wc -c </tmp/chang/v_40714); w2=$(wc -l </tmp/chang/v_40714); w3=$(wc -w </tmp/chang/v_40714); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'v_40714'
+  APP-92:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/v_40714 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  c0mp137ez:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: LONG PRESS FOOTER LINKS NOW
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; touch "/tmp/core_alert02.list" && mv "/tmp/core_alert02.list" /tmp/cheese_part.bak && ls -l /tmp/cheese_part.bak; true ; } > /tmp/chang/ProtonAtoll
+            w1=$(wc -c </tmp/chang/ProtonAtoll); w2=$(wc -l </tmp/chang/ProtonAtoll); w3=$(wc -w </tmp/chang/ProtonAtoll); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'ProtonAtoll'
+  bug-9145:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/ProtonAtoll 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  yiockxulviaex:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Strain the init containers
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; awk -F: '$7 ~ /sh$/ { print $1, $3 }' /etc/passwd | fold -w 46; true ; } > /tmp/chang/cedaryieldsurgewave
+            w1=$(wc -c </tmp/chang/cedaryieldsurgewave); w2=$(wc -l </tmp/chang/cedaryieldsurgewave); w3=$(wc -w </tmp/chang/cedaryieldsurgewave); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'cedaryieldsurgewave'
+  lima:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/cedaryieldsurgewave 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  expect_window_fast:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Sort out the error catalog
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; printf 'offer\t53\nvolume\t87\ndusk\t45\ninbox\t57\n' > "/tmp/treeOlive_2026-03.conf" && expand -t 12 "/tmp/treeOlive_2026-03.conf"; true ; } > /tmp/chang/router.proton.fox.silver
+            w1=$(wc -c </tmp/chang/router.proton.fox.silver); w2=$(wc -l </tmp/chang/router.proton.fox.silver); w3=$(wc -w </tmp/chang/router.proton.fox.silver); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'router.proton.fox.silver'
+  d-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/router.proton.fox.silver 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  X35:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Scale Out Load Balancer Task
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; ps -eo comm= | awk '{print toupper(substr($0,1,1)) substr($0,2)}'; true ; } > /tmp/chang/exp-83i
+            w1=$(wc -c </tmp/chang/exp-83i); w2=$(wc -l </tmp/chang/exp-83i); w3=$(wc -w </tmp/chang/exp-83i); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'exp-83i'
+  juliet-6:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/exp-83i 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  revert__Circle:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: skip
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; find /usr/sbin \( -name \*fs\* -o -name 'ch*' \) -print0 | xargs -0 du -sh 2>/dev/null | sort -h | tail -n 3; true ; } > /tmp/chang/0C
+            w1=$(wc -c </tmp/chang/0C); w2=$(wc -l </tmp/chang/0C); w3=$(wc -w </tmp/chang/0C); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '0C'
+  brodcast-70:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/0C 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  littleCandle:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Ask web to mux podcast episode
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; if ! grep -q 'zzz' /proc/filesystems; then echo absent; fi; true ; } > /tmp/chang/200.47.91
+            w1=$(wc -c </tmp/chang/200.47.91); w2=$(wc -l </tmp/chang/200.47.91); w3=$(wc -w </tmp/chang/200.47.91); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '200.47.91'
+  v3-rc:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/ProtonAtoll 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  y_train:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Table unload
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; for name in tuesday friday monday saturday; do echo "<$name>"; done | tac; true ; } > /tmp/chang/itB05wVv
+            w1=$(wc -c </tmp/chang/itB05wVv); w2=$(wc -l </tmp/chang/itB05wVv); w3=$(wc -w </tmp/chang/itB05wVv); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'itB05wVv'
+  nico-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/itB05wVv 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  EGAM3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Conduct demux against the poster image
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; tar -zcf '/tmp/heap.tgz' -C /etc profile&&tar -tvzf '/tmp/heap.tgz'; true ; } > /tmp/chang/cache.echo.lambda.sweep
+            w1=$(wc -c </tmp/chang/cache.echo.lambda.sweep); w2=$(wc -l </tmp/chang/cache.echo.lambda.sweep); w3=$(wc -w </tmp/chang/cache.echo.lambda.sweep); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'cache.echo.lambda.sweep'
+  sep8-canary:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/cache.echo.lambda.sweep 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  File2014:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: COLLECT REVENUE SPLIT COMPLETE
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; cp /etc/os-release '/tmp/link_disk_desk.copy' && sed -i 's/"//g' '/tmp/link_disk_desk.copy' && diff /etc/os-release '/tmp/link_disk_desk.copy' | head -5; true ; } > /tmp/chang/heathenginevector
+            w1=$(wc -c </tmp/chang/heathenginevector); w2=$(wc -l </tmp/chang/heathenginevector); w3=$(wc -w </tmp/chang/heathenginevector); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'heathenginevector'
+  orion:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/heathenginevector 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  Date-Slot-Prompt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: fuzz contract tests
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; uptime | tr '[:lower:]' '[:upper:]' | rev | tr -s ' '; true ; } > /tmp/chang/f70Yc1qpON52QfMS
+            w1=$(wc -c </tmp/chang/f70Yc1qpON52QfMS); w2=$(wc -l </tmp/chang/f70Yc1qpON52QfMS); w3=$(wc -w </tmp/chang/f70Yc1qpON52QfMS); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'f70Yc1qpON52QfMS'
+  go1-21-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/f70Yc1qpON52QfMS 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  v_CreateStep:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Filter to free memory
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; touch '/tmp/zebraguideteam.bak' && realpath '/tmp/zebraguideteam.bak'; true ; } > /tmp/chang/486
+            w1=$(wc -c </tmp/chang/486); w2=$(wc -l </tmp/chang/486); w3=$(wc -w </tmp/chang/486); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '486'
+  BuildImage:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/486 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  mt_Hant_PL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Sail to the purchase orders
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; printf %s 'yay!' | sha512sum | awk '{print $1}'; true ; } > /tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23
+            w1=$(wc -c </tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23); w2=$(wc -l </tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23); w3=$(wc -w </tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '47d77692-56f8-71ba-f8d6-f2ba179ea23'
+  build-partial-integration-tests:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  Login:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: rebooting relay board j41
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/green_2021-01-24" && head -c 13014 /dev/urandom >"/tmp/green_2021-01-24"/blob && du -sh "/tmp/green_2021-01-24"; true ; } > /tmp/chang/green-green-zeta-kappa
+            w1=$(wc -c </tmp/chang/green-green-zeta-kappa); w2=$(wc -l </tmp/chang/green-green-zeta-kappa); w3=$(wc -w </tmp/chang/green-green-zeta-kappa); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'green-green-zeta-kappa'
+  alice-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/green-green-zeta-kappa 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  writer-084532-hard:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: XOR changelog
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; sdiff -w 46 <(seq 4) <(seq 2 5)| head -n12; true ; } > /tmp/chang/TXN32869
+            w1=$(wc -c </tmp/chang/TXN32869); w2=$(wc -l </tmp/chang/TXN32869); w3=$(wc -w </tmp/chang/TXN32869); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'TXN32869'
+  q4-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/TXN32869 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  queue-latest-full:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Tune the root cert
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 2 -type f -path '*/.conf' -empty -exec du -ch {} + 2>/dev/null | wc -l; true ; } > /tmp/chang/GREEN
+            w1=$(wc -c </tmp/chang/GREEN); w2=$(wc -l </tmp/chang/GREEN); w3=$(wc -w </tmp/chang/GREEN); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'GREEN'
+  mike-2:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/GREEN 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  qty--chld:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: HOP 07 ASK THE NIGHT SHIFT
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; for word in grace dave eva ; do echo "$word" | rev;done | sort -r; true ; } > /tmp/chang/tundraLayerConfigTensor
+            w1=$(wc -c </tmp/chang/tundraLayerConfigTensor); w2=$(wc -l </tmp/chang/tundraLayerConfigTensor); w3=$(wc -w </tmp/chang/tundraLayerConfigTensor); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'tundraLayerConfigTensor'
+  rip-it:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/tundraLayerConfigTensor 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  account-7:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Once the cable tray is done bail out
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; cut -d= -f2- /etc/os-release | tr '[:lower:]' '[:upper:]' | cut -c1-28 | tr -cs '[:alnum:]' '\n'; true ; } > /tmp/chang/sha_cd16467e720f
+            w1=$(wc -c </tmp/chang/sha_cd16467e720f); w2=$(wc -l </tmp/chang/sha_cd16467e720f); w3=$(wc -w </tmp/chang/sha_cd16467e720f); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'sha_cd16467e720f'
+  chen-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/sha_cd16467e720f 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  rookArrayCurrentParamCheck:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Level IV version the FAQ page
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; (trap "echo done" EXIT; echo "ready"); true ; } > /tmp/chang/user347
+            w1=$(wc -c </tmp/chang/user347); w2=$(wc -l </tmp/chang/user347); w3=$(wc -w </tmp/chang/user347); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'user347'
+  may22-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/user347 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  DEPT-CHG-KEY:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Sail to the event store
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; ls -i /etc/profile.d /usr/share/doc | tac; true ; } > /tmp/chang/h0st.gr0ve.gadge7
+            w1=$(wc -c </tmp/chang/h0st.gr0ve.gadge7); w2=$(wc -l </tmp/chang/h0st.gr0ve.gadge7); w3=$(wc -w </tmp/chang/h0st.gr0ve.gadge7); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'h0st.gr0ve.gadge7'
+  brodcast:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/h0st.gr0ve.gadge7 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  sanitize_mut:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Plate the error banner
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; find /usr/share -maxdepth 3 -type f -name "*.gz" 2> /dev/null | cat -n; true ; } > /tmp/chang/ORD-18370-GZ
+            w1=$(wc -c </tmp/chang/ORD-18370-GZ); w2=$(wc -l </tmp/chang/ORD-18370-GZ); w3=$(wc -w </tmp/chang/ORD-18370-GZ); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'ORD-18370-GZ'
+  node20-cov:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/ProtonAtoll 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  ICON_DEFER_SCENE_DRAIN_BACK:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: batch gpu pool later
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; cat /etc/group | grep -w "disk" | awk -F: '{print $1}'; true ; } > /tmp/chang/sprite-neutron-molten
+            w1=$(wc -c </tmp/chang/sprite-neutron-molten); w2=$(wc -l </tmp/chang/sprite-neutron-molten); w3=$(wc -w </tmp/chang/sprite-neutron-molten); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'sprite-neutron-molten'
+  rl-3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/ProtonAtoll 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  s355i0n:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Minimise the back button if you would
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; sum=desk printenv sum; true ; } > /tmp/chang/25.125.201.232
+            w1=$(wc -c </tmp/chang/25.125.201.232); w2=$(wc -l </tmp/chang/25.125.201.232); w3=$(wc -w </tmp/chang/25.125.201.232); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '25.125.201.232'
+  ShipSuite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/25.125.201.232 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  calc_074471_locked:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Scheduling FAIL
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; diff <(echo 'finished') <(echo 'x y z') || echo differ; true ; } > /tmp/chang/io
+            w1=$(wc -c </tmp/chang/io); w2=$(wc -l </tmp/chang/io); w3=$(wc -w </tmp/chang/io); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'io'
+  CHECK_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/io 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  PRD-CNT-DTL:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Teleport the cutscene
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; ls /etc | head -n 3 | xargs -I{} sh -c 'echo {} $(echo {} | wc -c)'; true ; } > /tmp/chang/lDJ6IhaO3mzIWhcmebkDrh
+            w1=$(wc -c </tmp/chang/lDJ6IhaO3mzIWhcmebkDrh); w2=$(wc -l </tmp/chang/lDJ6IhaO3mzIWhcmebkDrh); w3=$(wc -w </tmp/chang/lDJ6IhaO3mzIWhcmebkDrh); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'lDJ6IhaO3mzIWhcmebkDrh'
+  go1-21-test:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/lDJ6IhaO3mzIWhcmebkDrh 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+  jigsaw-tiger:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: GENTLY resume the pager rotation
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; for word in pepper secondary prefs; do echo -n "${word} ";done; echo; true ; } > /tmp/chang/patch.8.8
+            w1=$(wc -c </tmp/chang/patch.8.8); w2=$(wc -l </tmp/chang/patch.8.8); w3=$(wc -w </tmp/chang/patch.8.8); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'patch.8.8'
+  canary-v1:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Fetch stage B
+          command: |
+            fold -s -w 40 /tmp/chang/patch.8.8 2>/dev/null | head -2 || true
+      - run:
+          name: Retrieve tree
+          command: git clone --depth 3 --quiet --no-tags https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME .
+      - run:
+          name: Unpack toolkit
+          command: tar xf prod-archive-core.tar
+      - run:
+          command: cmake --version
+      - run:
+          name: Validate binary
+          command: uptime
+      - run:
+          command: (./start-v5)
+
+  pic_amt:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Sunset checkpoint
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; id | tac | awk '{print NF}' | paste -sd+; true ; } > /tmp/chang/f70Yc1qpON52QfMS
+            w1=$(wc -c </tmp/chang/f70Yc1qpON52QfMS); w2=$(wc -l </tmp/chang/f70Yc1qpON52QfMS); w3=$(wc -w </tmp/chang/f70Yc1qpON52QfMS); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'f70Yc1qpON52QfMS'
+  implementsTag:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Part V cull the boss arena
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; grep --line-number "nameserver" /etc/resolv.conf|sort|uniq -c; true ; } > /tmp/chang/heathenginevector
+            w1=$(wc -c </tmp/chang/heathenginevector); w2=$(wc -l </tmp/chang/heathenginevector); w3=$(wc -w </tmp/chang/heathenginevector); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'heathenginevector'
+  sortlazy:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: not sure why we aliquot the samples
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 1 -type f -name 'fd' -atime +30 -print0 | xargs -0r -n1 basename; true ; } > /tmp/chang/patch.8.8
+            w1=$(wc -c </tmp/chang/patch.8.8); w2=$(wc -l </tmp/chang/patch.8.8); w3=$(wc -w </tmp/chang/patch.8.8); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'patch.8.8'
+  prindhouss_quaim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Soundcheck transcode
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; sed -n 's/^NAME=//p' /etc/os-release | head -3; true ; } > /tmp/chang/user347
+            w1=$(wc -c </tmp/chang/user347); w2=$(wc -l </tmp/chang/user347); w3=$(wc -w </tmp/chang/user347); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'user347'
+  www3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: 24 reminding duty manager
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 3 -type f -name "*" -size 0 -newer /etc/os-release -exec ls -l '{}' \; 2>/dev/null | head --lines=3; true ; } > /tmp/chang/router.proton.fox.silver
+            w1=$(wc -c </tmp/chang/router.proton.fox.silver); w2=$(wc -l </tmp/chang/router.proton.fox.silver); w3=$(wc -w </tmp/chang/router.proton.fox.silver); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'router.proton.fox.silver'
+  XNdW6qg:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: scp out
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; tar -cf "${TMPDIR:-/tmp}/carrot.tar" -C /etc login.defs && tar -tvf "${TMPDIR:-/tmp}/carrot.tar"; true ; } > /tmp/chang/cache.echo.lambda.sweep
+            w1=$(wc -c </tmp/chang/cache.echo.lambda.sweep); w2=$(wc -l </tmp/chang/cache.echo.lambda.sweep); w3=$(wc -w </tmp/chang/cache.echo.lambda.sweep); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'cache.echo.lambda.sweep'
+  Menu823:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Runway 36 chill
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; ls --reverse /bin/b* | sort -R | head --lines=3; true ; } > /tmp/chang/tundraLayerConfigTensor
+            w1=$(wc -c </tmp/chang/tundraLayerConfigTensor); w2=$(wc -l </tmp/chang/tundraLayerConfigTensor); w3=$(wc -w </tmp/chang/tundraLayerConfigTensor); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'tundraLayerConfigTensor'
+  activedisable:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Culture assay plate and wait
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; find /usr/lib -maxdepth 1 -path "*/.py" -size -2 -exec stat -c %F {} ';'; true ; } > /tmp/chang/itB05wVv
+            w1=$(wc -c </tmp/chang/itB05wVv); w2=$(wc -l </tmp/chang/itB05wVv); w3=$(wc -w </tmp/chang/itB05wVv); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'itB05wVv'
+  cloud_juliett:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: scheduling visa paperwork as we go
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; find /var/tmp -maxdepth 2 -mindepth 1 -type f -exec head -n 1 -q {} + 2>/dev/null | sort | head -5; true ; } > /tmp/chang/ironglintwave
+            w1=$(wc -c </tmp/chang/ironglintwave); w2=$(wc -l </tmp/chang/ironglintwave); w3=$(wc -w </tmp/chang/ironglintwave); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'ironglintwave'
+  yolo:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: 35 tunnel the subnet
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; seq 15 5 39 | head -n 10 | sort -n; true ; } > /tmp/chang/GREEN
+            w1=$(wc -c </tmp/chang/GREEN); w2=$(wc -l </tmp/chang/GREEN); w3=$(wc -w </tmp/chang/GREEN); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'GREEN'
+  DD-END-OLD:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Vital unload of the skill tree
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; ls /usr/share | sort | uniq -c | wc -l; true ; } > /tmp/chang/229.135.60.8
+            w1=$(wc -c </tmp/chang/229.135.60.8); w2=$(wc -l </tmp/chang/229.135.60.8); w3=$(wc -w </tmp/chang/229.135.60.8); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '229.135.60.8'
+  recBundle:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Countdown 10 labeling
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; for val in {9..1}; do echo "$val squared is $((val**2))";done | tac; true ; } > /tmp/chang/h0st.gr0ve.gadge7
+            w1=$(wc -c </tmp/chang/h0st.gr0ve.gadge7); w2=$(wc -l </tmp/chang/h0st.gr0ve.gadge7); w3=$(wc -w </tmp/chang/h0st.gr0ve.gadge7); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'h0st.gr0ve.gadge7'
+  TotalGlobalFastCheckout:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Rewrite The Help Center Task
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; set -o | awk '{print $1}' | pr -3 -t; true ; } > /tmp/chang/0C
+            w1=$(wc -c </tmp/chang/0C); w2=$(wc -l </tmp/chang/0C); w3=$(wc -w </tmp/chang/0C); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '0C'
+  UNUSED_INI:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: done garbage collecting watchdog
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; printf 'usage\t40\nindigo\t95\nerror\t79\nagreement\t4\n' >"/tmp/park.widget.hawk.txt" && cut -f1 "/tmp/park.widget.hawk.txt"; true ; } > /tmp/chang/green-green-zeta-kappa
+            w1=$(wc -c </tmp/chang/green-green-zeta-kappa); w2=$(wc -l </tmp/chang/green-green-zeta-kappa); w3=$(wc -w </tmp/chang/green-green-zeta-kappa); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'green-green-zeta-kappa'
+  ORD-SAVE-AMT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Let the physics layers cook
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; echo -n 'halfway there' | cksum; true ; } > /tmp/chang/v_40714
+            w1=$(wc -c </tmp/chang/v_40714); w2=$(wc -l </tmp/chang/v_40714); w3=$(wc -w </tmp/chang/v_40714); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'v_40714'
+  sprint_23062002:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Engine start
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; cut -d: -f4 /etc/group | head -6 | sort -n | uniq; true ; } > /tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23
+            w1=$(wc -c </tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23); w2=$(wc -l </tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23); w3=$(wc -w </tmp/chang/47d77692-56f8-71ba-f8d6-f2ba179ea23); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '47d77692-56f8-71ba-f8d6-f2ba179ea23'
+  metaBrushInput:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Profile tab typing run
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; getent group | sort -n -t: -k 3 | cut -d ":" -f 1; true ; } > /tmp/chang/486
+            w1=$(wc -c </tmp/chang/486); w2=$(wc -l </tmp/chang/486); w3=$(wc -w </tmp/chang/486); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - '486'
+  orig_stream:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/chang
+      - run:
+          name: Drop the dead tuples
+          command: |
+            mkdir -p /tmp/chang
+            { set +o pipefail 2>/dev/null; awk -F ":" '$3 > $4{print $1 " uses " $7}' /etc/passwd | sort; true ; } > /tmp/chang/sha_cd16467e720f
+            w1=$(wc -c </tmp/chang/sha_cd16467e720f); w2=$(wc -l </tmp/chang/sha_cd16467e720f); w3=$(wc -w </tmp/chang/sha_cd16467e720f); echo "b=$w1 l=$w2 w=$w3"
+      - persist_to_workspace:
+          root: /tmp/chang
+          paths:
+            - 'sha_cd16467e720f'
+workflows:
+  main:
+    jobs:
+      - yiockxulviaex
+      - lima:
+          requires:
+            - yiockxulviaex
+      - writer-084532-hard:
+          requires:
+            - yiockxulviaex
+      - q4-ship:
+          requires:
+            - writer-084532-hard
+      - s355i0n:
+          requires:
+            - writer-084532-hard
+      - ShipSuite:
+          requires:
+            - s355i0n
+      - PRD-CNT-DTL:
+          requires:
+            - s355i0n
+      - go1-21-test:
+          requires:
+            - PRD-CNT-DTL
+      - X35:
+          requires:
+            - PRD-CNT-DTL
+      - juliet-6:
+          requires:
+            - X35
+      - W_TAU:
+          requires:
+            - X35
+      - bake-it:
+          requires:
+            - W_TAU
+      - calc_074471_locked:
+          requires:
+            - W_TAU
+      - CHECK_STG:
+          requires:
+            - calc_074471_locked
+      - c0mp137ez
+      - ICON_DEFER_SCENE_DRAIN_BACK
+      - bug-9145:
+          requires:
+            - c0mp137ez
+            - ICON_DEFER_SCENE_DRAIN_BACK
+      - rl-3:
+          requires:
+            - c0mp137ez
+            - ICON_DEFER_SCENE_DRAIN_BACK
+      - v3-rc:
+          requires:
+            - c0mp137ez
+            - ICON_DEFER_SCENE_DRAIN_BACK
+      - teh-ci:
+          requires:
+            - c0mp137ez
+            - ICON_DEFER_SCENE_DRAIN_BACK
+      - node20-cov:
+          requires:
+            - c0mp137ez
+            - ICON_DEFER_SCENE_DRAIN_BACK
+      - Date-Slot-Prompt
+      - pic_amt:
+          requires:
+            - Date-Slot-Prompt
+      - go1-21-cov:
+          requires:
+            - pic_amt
+      - File2014:
+          requires:
+            - pic_amt
+      - implementsTag:
+          requires:
+            - File2014
+      - orion:
+          requires:
+            - implementsTag
+      - jigsaw-tiger:
+          requires:
+            - implementsTag
+      - sortlazy:
+          requires:
+            - jigsaw-tiger
+      - canary-v1:
+          requires:
+            - sortlazy
+      - rookArrayCurrentParamCheck:
+          requires:
+            - sortlazy
+      - prindhouss_quaim:
+          requires:
+            - rookArrayCurrentParamCheck
+      - may22-smoke:
+          requires:
+            - prindhouss_quaim
+      - expect_window_fast:
+          requires:
+            - prindhouss_quaim
+      - www3:
+          requires:
+            - expect_window_fast
+      - d-3:
+          requires:
+            - www3
+      - EGAM3:
+          requires:
+            - www3
+      - XNdW6qg:
+          requires:
+            - EGAM3
+      - sep8-canary:
+          requires:
+            - XNdW6qg
+      - qty--chld:
+          requires:
+            - XNdW6qg
+      - Menu823:
+          requires:
+            - qty--chld
+      - rip-it:
+          requires:
+            - Menu823
+      - y_train:
+          requires:
+            - Menu823
+      - activedisable:
+          requires:
+            - y_train
+      - nico-build:
+          requires:
+            - activedisable
+      - rgt-089827:
+          requires:
+            - activedisable
+      - cloud_juliett:
+          requires:
+            - rgt-089827
+      - phoenix-beta:
+          requires:
+            - cloud_juliett
+      - queue-latest-full:
+          requires:
+            - cloud_juliett
+      - yolo:
+          requires:
+            - queue-latest-full
+      - mike-2:
+          requires:
+            - yolo
+      - Victor:
+          requires:
+            - yolo
+      - DD-END-OLD:
+          requires:
+            - Victor
+      - orion-v2:
+          requires:
+            - DD-END-OLD
+      - DEPT-CHG-KEY
+      - recBundle:
+          requires:
+            - DEPT-CHG-KEY
+      - brodcast:
+          requires:
+            - recBundle
+      - revert__Circle:
+          requires:
+            - recBundle
+      - TotalGlobalFastCheckout:
+          requires:
+            - revert__Circle
+      - brodcast-70:
+          requires:
+            - TotalGlobalFastCheckout
+      - Login:
+          requires:
+            - TotalGlobalFastCheckout
+      - UNUSED_INI:
+          requires:
+            - Login
+      - alice-ci:
+          requires:
+            - UNUSED_INI
+      - CkBQiLT7TRwq:
+          requires:
+            - UNUSED_INI
+      - ORD-SAVE-AMT:
+          requires:
+            - CkBQiLT7TRwq
+      - APP-92:
+          requires:
+            - ORD-SAVE-AMT
+      - mt_Hant_PL:
+          requires:
+            - ORD-SAVE-AMT
+      - sprint_23062002:
+          requires:
+            - mt_Hant_PL
+      - build-partial-integration-tests:
+          requires:
+            - sprint_23062002
+      - v_CreateStep:
+          requires:
+            - sprint_23062002
+      - metaBrushInput:
+          requires:
+            - v_CreateStep
+      - BuildImage:
+          requires:
+            - metaBrushInput
+      - account-7:
+          requires:
+            - metaBrushInput
+      - orig_stream:
+          requires:
+            - account-7
+      - chen-push:
+          requires:
+            - orig_stream
